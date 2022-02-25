@@ -18,6 +18,8 @@ from tqdm import tqdm
 
 
 def process_log(logfile_input, logfile_output):
+    pbar = None
+
     print(f'Opening {logfile_input}')
     input_file = subprocess.Popen(['tail', '-fF', logfile_input], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 
@@ -60,8 +62,9 @@ def process_log(logfile_input, logfile_output):
             i = i + 1
         else:
             i = 0
-            pbar.refresh()
-            pbar.reset()
+            if not background:
+                pbar.refresh()
+                pbar.reset()
 
 
 def process(line):
